@@ -1,0 +1,249 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="AURA STREET — Streetwear, Sneaker und ausgewählte Marken.">
+<title>AURA STREET — Streetwear & Sneakers</title>
+<style>
+:root{--bg:#090909;--panel:#151515;--line:#303030;--white:#f5f5f5;--muted:#aaa}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--white);font-family:Arial,Helvetica,sans-serif}
+a{color:inherit;text-decoration:none}
+button{font:inherit;cursor:pointer}
+header{height:76px;padding:0 6%;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);position:sticky;top:0;background:#090909f5;z-index:5}
+.logo{font-size:24px;font-weight:900;letter-spacing:3px}
+nav{display:flex;gap:26px;font-size:13px}
+nav a:hover,.muted-link:hover{color:#bbb}
+.cart-button{background:transparent;border:1px solid #555;color:white;padding:11px 15px}
+.hero{min-height:460px;padding:80px 8%;display:flex;align-items:center;background:linear-gradient(90deg,#080808 5%,#080808d9 45%,#08080830),url('https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1800&q=85') center 40%/cover}
+.eyebrow{font-size:11px;letter-spacing:4px;color:#ccc;text-transform:uppercase}
+.hero h1{font-size:clamp(44px,8vw,88px);line-height:.95;letter-spacing:-3px;margin:20px 0;max-width:680px}
+.hero p{color:#ddd;line-height:1.7;max-width:430px}
+.primary{display:inline-block;background:white;color:#111;border:0;padding:15px 22px;font-weight:bold;margin-top:15px}
+.primary:hover{background:#ddd}
+section{padding:54px 6%}
+.section-head{display:flex;align-items:end;justify-content:space-between;gap:20px}
+h2{font-size:30px;margin:0 0 9px}
+.sub{color:var(--muted);font-size:14px}
+.products{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:17px;margin-top:27px}
+.product{min-width:0}
+.photo{height:290px;position:relative;background:#222;overflow:hidden}
+.photo img{width:100%;height:100%;object-fit:cover;transition:transform .4s;display:block}
+.product:hover .photo img{transform:scale(1.04)}
+.tag{position:absolute;top:12px;left:12px;background:white;color:#111;padding:6px 9px;font-size:10px;font-weight:bold}
+.product h3{font-size:14px;margin:14px 0 6px}
+.brand{font-size:11px;color:var(--muted)}
+.price{font-weight:bold;margin:12px 0}
+.add{width:100%;background:transparent;border:1px solid #555;color:white;padding:12px;font-size:12px}
+.add:hover{background:white;color:#111}
+.categories{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.category{height:220px;position:relative;overflow:hidden;background:#222}
+.category img{width:100%;height:100%;object-fit:cover;opacity:.65;transition:transform .4s}
+.category:hover img{transform:scale(1.04)}
+.category span{position:absolute;bottom:20px;left:20px;font-size:22px;font-weight:800}
+.benefits{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.benefits strong{display:block;margin-bottom:8px}
+.benefits p{color:var(--muted);font-size:13px;line-height:1.6}
+footer{padding:40px 6%;display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;color:var(--muted);font-size:12px}
+footer .logo{color:white}
+.cart-panel{position:fixed;right:0;top:0;height:100%;width:min(400px,100%);background:#111;border-left:1px solid #333;z-index:10;padding:24px;transform:translateX(105%);transition:transform .25s;overflow:auto}
+.cart-panel.open{transform:translateX(0)}
+.cart-top{display:flex;justify-content:space-between;align-items:center}
+.cart-item{display:flex;justify-content:space-between;gap:15px;padding:15px 0;border-bottom:1px solid #333;font-size:13px}
+.close{background:none;color:white;border:1px solid #555;padding:8px 12px}
+.checkout{width:100%;padding:14px;background:white;color:#111;border:0;font-weight:bold;margin-top:20px}
+#cartMessage{font-size:12px;line-height:1.6;color:#ccc}
+@media(max-width:850px){nav{gap:12px}.products{grid-template-columns:repeat(2,minmax(0,1fr))}.photo{height:250px}}
+@media(max-width:560px){header{padding:0 4%;height:65px}.logo{font-size:18px;letter-spacing:2px}nav{display:none}.hero{padding:65px 6%;min-height:420px}.hero h1{letter-spacing:-1px}section{padding:40px 5%}h2{font-size:25px}.photo{height:210px}.categories{grid-template-columns:1fr}.category{height:180px}.benefits{grid-template-columns:1fr}.section-head{align-items:start}}
+</style>
+</head>
+<body>
+<header>
+  <a class="logo" href="#">AURA STREET</a>
+  <nav>
+    <a href="#">Home</a>
+    <a href="#shop">Shop</a>
+    <a href="#kategorien">Kategorien</a>
+    <a href="#about">Über uns</a>
+  </nav>
+  <button class="cart-button" onclick="toggleCart(true)">Warenkorb (<span id="cartCount">0</span>)</button>
+</header>
+
+<main>
+  <section class="hero">
+    <div>
+      <div class="eyebrow">Streetwear / Sneaker / Lifestyle</div>
+      <h1>MEHR ALS NUR KLEIDUNG.</h1>
+      <p>Entdecke deinen Style. Finde deine Marken. Geh deinen eigenen Weg.</p>
+      <a class="primary" href="#shop">JETZT SHOPPEN&nbsp; →</a>
+    </div>
+  </section>
+
+  <section id="shop">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Dein nächster Look</div>
+        <h2>BESTSELLER</h2>
+        <div class="sub">Streetwear-Essentials für jeden Tag.</div>
+      </div>
+      <a class="muted-link" href="#kategorien">Kategorien entdecken →</a>
+    </div>
+
+    <div class="products">
+      <article class="product">
+        <div class="photo">
+          <span class="tag">ESSENTIAL</span>
+          <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=700&q=85" alt="Schwarzer Hoodie">
+        </div>
+        <div class="brand">AURA STREET</div>
+        <h3>Essential Hoodie</h3>
+        <div class="price">49,00 €</div>
+        <button class="add" onclick="addToCart('hoodie-01','Essential Hoodie',49)">IN DEN WARENKORB +</button>
+      </article>
+
+      <article class="product">
+        <div class="photo">
+          <span class="tag">BASIC</span>
+          <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=85" alt="T-Shirt">
+        </div>
+        <div class="brand">AURA STREET</div>
+        <h3>Classic T-Shirt</h3>
+        <div class="price">24,00 €</div>
+        <button class="add" onclick="addToCart('shirt-01','Classic T-Shirt',24)">IN DEN WARENKORB +</button>
+      </article>
+
+      <article class="product">
+        <div class="photo">
+          <span class="tag">SNEAKER</span>
+          <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=700&q=85" alt="Roter Sneaker">
+        </div>
+        <div class="brand">SNEAKER EDIT</div>
+        <h3>Street Sneaker</h3>
+        <div class="price">129,00 €</div>
+        <button class="add" onclick="addToCart('sneaker-demo','Street Sneaker',129)">VORMERKEN +</button>
+      </article>
+
+      <article class="product">
+        <div class="photo">
+          <span class="tag">ACCESSOIRE</span>
+          <img src="https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=700&q=85" alt="Schwarze Cap">
+        </div>
+        <div class="brand">STREET ACCESSORIES</div>
+        <h3>Classic Cap</h3>
+        <div class="price">29,00 €</div>
+        <button class="add" onclick="addToCart('cap-demo','Classic Cap',29)">VORMERKEN +</button>
+      </article>
+    </div>
+    <p class="sub">Hinweis: Beispielprodukte und Beispielbilder. Markenware wird erst nach Prüfung echter Produkte und Bezugsquellen angeboten.</p>
+  </section>
+
+  <section id="kategorien">
+    <div class="eyebrow">Finde deinen Style</div>
+    <h2>KATEGORIEN</h2>
+    <div class="categories" style="margin-top:25px">
+      <a class="category" href="#shop">
+        <img src="https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=85" alt="Streetwear Kleidung">
+        <span>OBERTEILE ↗</span>
+      </a>
+      <a class="category" href="#shop">
+        <img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=900&q=85" alt="Sneaker">
+        <span>SNEAKER ↗</span>
+      </a>
+      <a class="category" href="#shop">
+        <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=900&q=85" alt="Streetwear Accessoires">
+        <span>ACCESSOIRES ↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="benefits" id="about">
+    <div><strong>Versand</strong><p>Versandinformationen werden vor dem Verkaufsstart ergänzt.</p></div>
+    <div><strong>Sichere Zahlung</strong><p>Stripe wird nach der Einrichtung für echte Zahlungen verbunden.</p></div>
+    <div><strong>Support</strong><p>Fragen? Kontaktiere uns, sobald die Shop-Kontaktdaten eingerichtet sind.</p></div>
+  </section>
+</main>
+
+<footer>
+  <div><div class="logo">AURA STREET</div><p>Dein Style. Deine Straße.</p></div>
+  <div><strong>SHOP</strong><p><a href="#shop">Bestseller</a></p><p><a href="#kategorien">Kategorien</a></p></div>
+  <div><strong>INFORMATIONEN</strong><p>Versand & Rückgabe</p><p>Kontakt</p></div>
+  <div><strong>RECHTLICHES</strong><p>Impressum und Datenschutz vor Verkaufsstart ergänzen.</p></div>
+</footer>
+
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-top"><h2>Warenkorb</h2><button class="close" onclick="toggleCart(false)">Schließen ✕</button></div>
+  <div id="cartItems"></div>
+  <p id="cartTotal">Gesamt: 0,00 €</p>
+  <button class="checkout" onclick="checkout()">ZUR KASSE</button>
+  <p id="cartMessage"></p>
+</aside>
+
+<script>
+const cart = [];
+
+function addToCart(id, name, price) {
+  const existing = cart.find(item => item.id === id);
+  if (existing) existing.quantity++;
+  else cart.push({id, name, price, quantity: 1});
+  renderCart();
+  toggleCart(true);
+}
+
+function renderCart() {
+  document.getElementById("cartCount").textContent =
+    cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  document.getElementById("cartItems").innerHTML = cart.length
+    ? cart.map((item, index) =>
+      `<div class="cart-item"><div>${item.name}<br>${item.quantity} × ${item.price.toFixed(2).replace(".", ",")} €</div><button class="close" onclick="removeItem(${index})">Entfernen</button></div>`
+    ).join("")
+    : "<p class='sub'>Dein Warenkorb ist noch leer.</p>";
+
+  const total = cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
+  document.getElementById("cartTotal").textContent =
+    "Gesamt: " + total.toFixed(2).replace(".", ",") + " €";
+}
+
+function removeItem(index) {
+  cart.splice(index, 1);
+  renderCart();
+}
+
+function toggleCart(open) {
+  document.getElementById("cartPanel").classList.toggle("open", open);
+}
+
+async function checkout() {
+  const message = document.getElementById("cartMessage");
+  if (!cart.length) {
+    message.textContent = "Dein Warenkorb ist noch leer.";
+    return;
+  }
+
+  if (cart.length !== 1 || !["shirt-01", "hoodie-01"].includes(cart[0].id)) {
+    message.textContent = "Der Online-Checkout ist noch in Einrichtung. Bitte nutze zum Testen einzeln den Hoodie oder das T-Shirt.";
+    return;
+  }
+
+  message.textContent = "Checkout wird geöffnet …";
+  try {
+    const response = await fetch("/create-checkout-session", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({productId: cart[0].id})
+    });
+    const data = await response.json();
+    if (data.url) window.location.href = data.url;
+    else message.textContent = data.error || "Zahlung ist noch nicht eingerichtet.";
+  } catch (error) {
+    message.textContent = "Checkout momentan nicht erreichbar. Bitte später erneut versuchen.";
+  }
+}
+
+renderCart();
+</script>
+</body>
+</html>
