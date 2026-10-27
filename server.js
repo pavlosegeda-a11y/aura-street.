@@ -1,3 +1,4 @@
+
 require("dotenv").config();
 
 const express = require("express");
@@ -43,12 +44,48 @@ app.post("/create-checkout-session", async (req, res) => {
       });
     }
 
-    const { productId } = req.body || {};
-    const product = products[productId];
+    const body = req.body || {};
 
-    if (!product || product.price <= 0) {
+    // Supports the old single-product request too.
+    const items = Array.isArray(body.items)
+      ? body.items
+      : body.productId
+        ? [{ id: body.productId, quantity: 1 }]
+        : [];
+
+    if (items.length === 0 || items.length > 50) {
       return res.status(400).json({
-        error: "Dieses Produkt kann hier nicht direkt bezahlt werden."
+        error: "Dein Warenkorb ist leer oder enthält zu viele Artikel."
+      });
+    }
+
+    const lineItems = [];
+
+    for (const item of items) {
+      const product = products[item.id];
+      const quantity = Number(item.quantity);
+
+      if (
+        !product ||
+        product.price <= 0 ||
+        !Number.isInteger(quantity) ||
+        quantity < 1 ||
+        quantity > 20
+      ) {
+        return res.status(400).json({
+          error: "Ein Artikel oder die Menge ist ungültig."
+        });
+      }
+
+      lineItems.push({
+        price_data: {
+          currency: product.currency,
+          product_data: {
+            name: product.name
+          },
+          unit_amount: product.price
+        },
+        quantity
       });
     }
 
@@ -57,19 +94,7 @@ app.post("/create-checkout-session", async (req, res) => {
 
     const session = await stripe.checkout.sessions.create({
       mode: "payment",
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: product.currency,
-            product_data: {
-              name: product.name
-            },
-            unit_amount: product.price
-          },
-          quantity: 1
-        }
-      ],
+      line_items: lineItems,
       success_url:
         `${baseUrl}/success.html?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${baseUrl}/?checkout=cancelled`
